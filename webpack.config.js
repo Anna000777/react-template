@@ -1,11 +1,11 @@
-const path = require('path');
+const { resolve, join } = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = {
     entry: './src/index.js',
     output: {
-        path: path.resolve(__dirname, 'build'),
+        path: resolve(__dirname, 'build'),
         filename: '[name]-[fullhash].js',
         clean: true,
         publicPath: '/',
@@ -21,10 +21,11 @@ module.exports = {
     devServer: {
         port: 8080,
         static: {
-            directory: path.join(__dirname, 'src'),
+            directory: join(__dirname, 'src'),
         },
         historyApiFallback: true,
     },
+    devtool: 'inline-source-map',
     module: {
         rules: [
             {
@@ -33,7 +34,8 @@ module.exports = {
                 use: {
                     loader: "babel-loader",
                     options: {
-                        presets: ['@babel/preset-env', '@babel/preset-react']
+                        presets: ['@babel/preset-env', '@babel/preset-react'],
+                        plugins: ['@babel/plugin-transform-runtime'],
                     }
                 }
             },
